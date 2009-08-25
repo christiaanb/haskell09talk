@@ -1,0 +1,18 @@
+%include polycode.fmt
+
+%if style == newcode 
+%format ANN(x) = "{-# ANN " x "#-}"
+%format CXT(x) = "(" x ")"
+%format ^^ = " " 
+%else 
+%format ANN(x) = "\{-\# ANN\ " x " \#-\}"
+%format CXT(x) = "(Some\ context...)" 
+%format ^^ = "\; "
+%format :>:   = "\ensuremath{>}"
+%format :<:   = "\ensuremath{<}"
+%format :==:  = "\ensuremath{\equiv}"
+%format :-:   = "\ensuremath{-}"
+%format :+:   = "\ensuremath{+}"
+%format :*:   = "\ensuremath{*}"
+%format :<=:  = "\ensuremath{\leq}"
+%endif 
