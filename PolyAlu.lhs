@@ -23,9 +23,13 @@ import qualified Prelude as P
 \frame
 {
 \frametitle{Imports}
+Import all the built-in types, such as vectors and integers:
 \begin{code}
-import {-"{\color<2>[rgb]{1,0,0}"-}CLasH.HardwareTypes{-"}"-}
-import {-"{\color<3>[rgb]{1,0,0}"-}CLasH.Translator.Annotations{-"}"-}
+import CLasH.HardwareTypes
+\end{code}\pause
+Import annotations, helps \clash{} to find top-level component:
+\begin{code}
+import CLasH.Translator.Annotations
 \end{code}
 }
 
@@ -34,17 +38,17 @@ import {-"{\color<3>[rgb]{1,0,0}"-}CLasH.Translator.Annotations{-"}"-}
 {
 First we define some ALU types:
 \begin{code}
-type Op s a         =   a -> {-"{\color<2>[rgb]{1,0,0}"-}Vector s a{-"}"-} -> a
+type Op s a         =   a -> Vector s a -> a
 type Opcode         =   Bit
-\end{code}
+\end{code}\pause
 And some Register types:
 \begin{code}
-type RegBank s a    =   {-"{\color<2>[rgb]{1,0,0}"-}Vector (s :+: D1){-"}"-} a
+type RegBank s a    =   Vector (s :+: D1) a
 type RegState s a   =   State (RegBank s a)
-\end{code}
+\end{code}\pause
 And a simple Word type:
 \begin{code}
-type Word           =   {-"{\color<3>[rgb]{1,0,0}"-}SizedInt D12{-"}"-}
+type Word           =   SizedInt D12
 \end{code}
 }
 \subsection{Frameworks for Operations}
@@ -54,7 +58,7 @@ We make a primitive operation:
 \begin{code}
 primOp :: {-"{\color<2>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
 primOp f a b = a `f` a
-\end{code}
+\end{code}\pause
 We make a vector operation:
 \begin{code}
 vectOp :: {-"{\color<2>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
@@ -88,8 +92,8 @@ registerBank (State mem) data_in rdaddr wraddr wrenable =
   ((State mem'), data_out)
   where
     data_out  =   mem!rdaddr
-    mem'          {-"{\color<3>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}  = mem
-                  {-"{\color<3>[rgb]{1,0,0}"-}| otherwise{-"}"-}        = replace mem wraddr data_in
+    mem'  {-"{\color<3>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}    = mem
+          {-"{\color<3>[rgb]{1,0,0}"-}| otherwise{-"}"-}          = replace mem wraddr data_in
 \end{code}
 }
 \subsection{Simple CPU: ALU \& Register Bank}
@@ -99,13 +103,12 @@ Combining ALU and register bank:
 \begin{code}
 {-"{\color<2>[rgb]{1,0,0}"-}ANN(actual_cpu TopEntity){-"}"-}
 actual_cpu :: 
-  (Opcode, Word, Vector D4 Word, 
-  RangedWord D9, 
-  RangedWord D9, Bit) -> 
-  RegState D9 Word ->
+  (Opcode, Word, Vector D4 Word, RangedWord D9, 
+  RangedWord D9, Bit) ->  RegState D9 Word ->
   (RegState D9 Word, Word)
 
-actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = (ram', alu_out)
+actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = 
+  (ram', alu_out)
   where
     alu_out = alu simpleOp vectorOp opc ram_out b
     (ram',ram_out)  = registerBank ram a rdaddr wraddr wren

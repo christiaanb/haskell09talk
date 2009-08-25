@@ -1,17 +1,12 @@
-\documentclass[hyperref={unicode}]{beamer}
+\RequirePackage{atbegshi}
+\documentclass[empty]{caes_presentation}
 %include talk.fmt
 \include{preamble}
 
 \title{\clash{}}
 \subtitle{From Haskell To Hardware}
 \author{Christiaan Baaij \& Matthijs Kooijman}
-\institute[University of Twente]
-{
-  Computer Architecture for Embedded Systems \\
-  Faculty of EEMCS \\
-  University of Twente\\
-}
-\date{\today}
+\date{September 3, 2009}
 
 \begin{document}
 

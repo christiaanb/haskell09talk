@@ -1,0 +1,40 @@
+%%
+%% beamerthemecaes.sty
+%%
+%% Copyright (C) 2008 CAES (http://caes.ewi.utwente.nl)
+%%
+%% Authors         : Pascal Wolkotte
+%% Created On      : March 15 2008
+%%
+%% $Author: wolkottept $
+%% $Date: 2008-03-14 10:07:37 +0100 (Fri, 14 Mar 2008) $
+%% $Revision: 40 $
+%% $HeadURL: https://svncaes/svn/general/templates/caes/trunk/caes_presentation.cls $
+%% 
+
+\mode<presentation>
+
+\useoutertheme{caes}
+\useinnertheme{default}
+\useinnertheme{caes}
+\usecolortheme{caes}
+\usefonttheme{caes}
+
+%\setbeamertemplate{headline}[caes theme]
+
+\setbeamertemplate{headline}[chameleonB theme]
+\setbeamertemplate{footline}[caes theme]
+\setbeamertemplate{background}[soc theme]
+\setbeamertemplate{navigation symbols}[vertical]
+\setbeamercovered{transparent}
+
+\DeclareOptionBeamer{empty}{
+	\setbeamertemplate{background}[empty]
+	\setbeamertemplate{navigation symbols}[none]
+	\PassOptionsToPackage{navigation=false}{beamerouterthemecaes}
+}
+
+\ProcessOptionsBeamer
+
+\mode
+<all>

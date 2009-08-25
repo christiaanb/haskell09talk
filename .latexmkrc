@@ -5,4 +5,4 @@ $caes_latexmkrc =~ s/\n//;
 process_rc_file($caes_latexmkrc);
 
 # Add your own settings below
-$pdflatex = 'xelatex -shell-escape -synctex=1 -output-driver="xdvipdfmx -q -E" %O %S';
+# $pdflatex = 'xelatex -shell-escape -synctex=1 -output-driver="xdvipdfmx -q -E" %O %S';

@@ -1,6 +1,6 @@
 FILE		= clash-haskell09
 LHS2TEX = lhs2TeX -v --poly --haskell
-LATEXMK = latexmk
+LATEXMK = latexmk -pdf
 RM			= rm -f
 RSVG    = rsvg-convert --format=pdf
 

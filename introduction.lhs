@@ -9,6 +9,7 @@
     \item Quick real demo
   \end{itemize}
 }
+\note{Virtuele demo}
 
 \subsection{What is \texorpdfstring{\clash{}}{CLasH}}
 \frame
@@ -21,14 +22,25 @@
     \item Structural Description of a Mealy Machine
   \end{itemize}
 }
+\note[itemize]
+{
+\item Wij zijn wij
+\item \clash{} voor rapid prototyping
+\item Subset haskell vertaalbaar
+\item Mealy machine beschrijving
+}
+
 \subsection{Mealy Machine}
 \frame
 {
 \frametitle{Mealy Machine}
   \begin{figure}
-  \centerline{\includegraphics[width=\textwidth]{mealymachine}}
+  \centerline{\includegraphics[width=10cm]{mealymachine}}
   \label{img:mealymachine}
   \end{figure}
+}
+\note{
+Voor wie het niet meer weet, dit is een mealy machine
 }
 
 \frame
@@ -37,12 +49,12 @@
 \begin{code}
 mealyMachine :: 
   InputSignals ->
-  {-"{\color<2->[rgb]{1,0,0}"-}State{-"}"-} ->
+  {-"{\color<2>[rgb]{1,0,0}"-}State{-"}"-} ->
   (State, OutputSignals)
-mealyMachine inputs {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3->[rgb]{0,0,1}"-}new_state{-"}"-}, output)
+mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}, output)
   where
-    {-"{\color<3->[rgb]{0,0,1}"-}new_state{-"}"-}   =   logic     {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-}   input
-    outputs                                         =   logic     {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-}   input
+    {-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}   =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
+    outputs                                         =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
 \end{code}
 }
 \subsection{Simulation}
@@ -50,10 +62,10 @@ mealyMachine inputs {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3->[
 {
 \frametitle{Simulating a Mealy Machine}
 \begin{code}
-run func {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-} [] = []
-run func {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
+run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} [] = []
+run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
   where
-    ({-"{\color<3->[rgb]{0,0,1}"-}state'{-"}"-}, o) = func {-"{\color<2->[rgb]{1,0,0}"-}state{-"}"-} i
-    out         = run func {-"{\color<3->[rgb]{0,0,1}"-}state'{-"}"-} input
+    ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o) = func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} i
+    out         = run func {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
 \end{code}
 }

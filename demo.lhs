@@ -7,7 +7,7 @@ As a library:
   \item Import the module: CLasH.Translator
   \item And call \emph{makeVHDLAnnotations ghc\_lib\_dir [files\_to\_translate]}
 \end{itemize}
-Use customized GHC:
+Customized GHC:
 \begin{itemize}
   \item Call GHC with the --vhdl flag
   \item Use the :vhdl command in GHCi

@@ -1,0 +1,241 @@
+%%
+%% beamercolorthemecaes.sty
+%%
+%% Copyright (C) 2008 CAES (http://caes.ewi.utwente.nl)
+%%
+%% Authors         : Pascal Wolkotte
+%% Created On      : March 13 2008
+%%
+%% $Author: bakkerv $
+%% $Date: 2008-03-25 10:31:52 +0100 (Tue, 25 Mar 2008) $
+%% $Revision: 45 $
+%% $HeadURL: https://ewi630/svn/general/templates/caes/trunk/beamerouterthemecaes.sty $
+%%
+\makeatletter
+
+\def\footlinetitle{title}
+\def\beamer@theme@footline{title}
+\DeclareOptionBeamer{footline}{\def\beamer@theme@footline{#1}}
+
+\newif\ifbeamer@theme@logoUT
+\def\hidelogoUT{ \beamer@theme@logoUTfalse }
+\def\showlogoUT{ \beamer@theme@logoUTtrue }
+\showlogoUT
+
+\ProcessOptionsBeamer
+
+\usetikzlibrary{positioning}
+\usetikzlibrary{fadings}
+
+\def\getcoordinates{
+	\node[coordinate] (titlepos) at (.95\paperwidth,-.217\paperheight) {};
+	\node[coordinate] (topleft) at (.05\paperwidth,-.225\paperheight) {};
+	\node[coordinate] (TL) at (0,0) {};
+	\node[coordinate] (BR) at (\paperwidth,-\textheight) {};
+	\node[coordinate] (F1) at (.65\paperwidth,-.25\textheight) {};
+	\node[coordinate] (F2) at (.95\paperwidth,-.5\textheight) {};
+	\node[coordinate] (F1m) at (.35\paperwidth,-.25\textheight) {};
+	\node[coordinate] (F2m) at (.05\paperwidth,-.5\textheight) {};
+}
+
+% -- Shading function. From 0 - 50 no transparency and from 50 - 100 transparency
+\pgfdeclarehorizontalshading{shading}{100bp}{ color(0bp)=(transparent!0); color(25bp)=(transparent!0); color(60bp)=(transparent!0); color(75bp)=(transparent!100); color(100bp)=(transparent!100)}
+\pgfdeclarefading{fading}{\pgfuseshading{shading}}
+\def\placehorzfading#1{
+	\pgfpathrectangle{\pgfpointorigin}{\pgfpoint{#1}{-\paperheight}}
+	\pgfsetfadingforcurrentpath{fading}{}
+	\pgfusepath{discard}
+}
+\pgfdeclarefading{LRfading}{
+\begin{tikzpicture}[line width=0pt]
+	\getcoordinates
+	\fill[pgftransparent!0] (TL -| F1m) rectangle (BR -| F1);
+	\shade[left color=pgftransparent!0, right color=pgftransparent!100] (TL -| F1) rectangle (BR -| F2);
+	\shade[right color=pgftransparent!0, left color=pgftransparent!100] (TL -| F2m) rectangle (BR -| F1m);
+\end{tikzpicture}
+}
+\pgfdeclarefading{BRfading}{
+\begin{tikzpicture}[line width=0pt]
+	\getcoordinates
+	\fill[pgftransparent!0] (TL) rectangle (F1);
+	\begin{scope}
+	\path[clip] (F1) -- (F2) -- (BR) |- (TL) -- cycle;
+	\shade[left color=pgftransparent!0, right color=pgftransparent!100] (TL -| F1) rectangle (BR -| F2);
+	\end{scope}
+	\begin{scope}
+	\path[clip] (F1) -- (F2) -- (BR) -| (TL) -- cycle;
+	\shade[top color=pgftransparent!0, bottom color=pgftransparent!100] (TL |- F1) rectangle (BR |- F2);
+	\end{scope}
+\end{tikzpicture}
+}
+
+\mode<presentation>
+
+% -- Headline and footline --
+\pgfdeclareimage[interpolate=true, height=.1\paperheight]{ut_logo}{ut_logo_blue}
+
+% -- HEADER --
+
+%Select the correct logo
+
+\defbeamertemplate{headline}{empty}{%
+	\begin{tikzpicture}
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,-.11\paperheight);
+	\end{tikzpicture}
+}
+\def\UTheadline{
+		\begin{scope}
+			\placehorzfading{.95\paperwidth}
+			\node[fill=ut_blue,  line width=0pt, minimum height=.033\paperheight, minimum width=.95\paperwidth, anchor=north west] (bart) at (0,0) {};
+			\placehorzfading{.8\paperwidth}
+			\node[fill=ut_orange,line width=0pt, minimum height=.043\paperheight, minimum width=.8\paperwidth, below=0pt of bart.south west, anchor=north west] (barm) {};
+			\placehorzfading{.675\paperwidth}
+			\node[fill=ut_lightblue, line width=0pt, minimum height=.032\paperheight, minimum width=.675\paperwidth, below=0pt of barm.south west, anchor=north west] (barb) {};
+		\end{scope}
+		\ifbeamer@theme@logoUT
+			\path (\paperwidth,-.11\paperheight) node[above left=0pt and 3pt, line width=0pt,inner sep=0pt] {\pgfuseimage{ut_logo}};
+		\fi
+}
+\pgfdeclareimage[interpolate=true, height=.1\paperheight]{logoNWchameleonA}{chameleonA}
+\pgfdeclareimage[interpolate=true, height=.14\paperheight]{logoNWchameleonB}{chameleonB}
+\pgfdeclareimage[interpolate=true, height=0.55\paperheight]{logoPoles}{poles_shaded}
+\pgfdeclareimage[interpolate=true, height=0.14\paperheight]{logoSloth}{sloth}
+
+\defbeamertemplate*{headline}{chameleonA theme}{%
+	\begin{tikzpicture}
+		\getcoordinates
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,-.11\paperheight);
+		\UTheadline
+		\path (0,-.12\paperheight) node[above right=0pt, line width=0pt,inner sep=0pt] {\pgfuseimage{logoNWchameleonA}};
+	\end{tikzpicture}
+}
+\defbeamertemplate{headline}{chameleonB theme}{%
+	\begin{tikzpicture}
+		\getcoordinates
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,-.11\paperheight);
+		\UTheadline
+		\path (-10pt,-.16\paperheight) node[above right=0pt, line width=0pt,inner sep=0pt] {\pgfuseimage{logoNWchameleonB}};
+	\end{tikzpicture}
+}
+\defbeamertemplate{headline}{energy theme}{%
+	\begin{tikzpicture}
+		\getcoordinates
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,-.11\paperheight);
+		\UTheadline
+		\path (-3.2pt,-.16\paperheight) node[above right=0pt, line width=0pt,inner sep=0pt] {\pgfuseimage{logoSloth}};
+	\end{tikzpicture}
+}
+
+\defbeamertemplate{headline}{caes theme}{%
+	\begin{tikzpicture}
+		\getcoordinates
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,-.11\paperheight);
+		\UTheadline
+	\end{tikzpicture}
+}
+
+% -- FOOTER --
+\defbeamertemplate{footline}{empty}{%
+	\leavevmode%
+	\begin{tikzpicture}[remember picture]
+		\path[clip,use as bounding box] (0,0) rectangle (\paperwidth,-.08\paperheight);
+	\end{tikzpicture}
+}
+\defbeamertemplate*{footline}{caes theme}{%
+	\leavevmode%
+	\begin{tikzpicture}[remember picture]
+		\path[clip,use as bounding box] (0,0) rectangle (\paperwidth,-.08\paperheight);
+		\draw[ut_orange,semithick] (.05\paperwidth,0) node[coordinate] (footerleft) {} -- node[coordinate] (footercenter) {} ++(.9\paperwidth,0pt) node [coordinate] (footerright) {};
+		\path (footerleft)   node[below right=1ex and 0ex] {\inserttitle\ - \insertsubtitle};
+		\path (footercenter) node[below=1ex] {\insertshortdate};
+		\path (footerright)  node[below left=1ex and 0ex] {\insertframenumber / \inserttotalframenumber};
+	\end{tikzpicture}
+}
+
+% -- BACKGROUND --
+\defbeamertemplate{background}{empty}{}%
+
+%\ifbeamer@theme@background@soc
+	\pgfdeclareimage[interpolate=true, width=.65\paperwidth]{soc_bg}{soc_bg}
+%\fi
+\defbeamertemplate*{background}{soc theme}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\getcoordinates
+	% Custom background
+	\makeatletter
+	\ifbeamer@plainframe\else
+		\path (\paperwidth,-\paperheight) node[above left, inner sep=0pt, line width=0pt,rotate=-15,yshift=-20mm,xshift=5mm] {\pgfuseimage{soc_bg}};
+	\fi
+	\makeatother
+	\end{tikzpicture}
+}
+\defbeamertemplate{background}{electricity poles}{
+	\begin{tikzpicture}[remember picture, overlay]
+		\getcoordinates
+	% Custom background
+	\makeatletter
+	\ifbeamer@plainframe\else
+		\path (\paperwidth,-\paperheight) node[anchor=south east,inner sep=0pt, line width=0pt] {\pgfuseimage{logoPoles}};
+	\fi
+	\makeatother
+	\end{tikzpicture}
+}
+
+
+% -- Navigation symbols --
+\setbeamertemplate{navigation symbols}[vertical]
+\defbeamertemplate{navigation symbols}{none}{}
+
+% -- Frame title: default --
+\defbeamertemplate{frametitle}{noleft}{
+	\nointerlineskip
+	\begin{beamercolorbox}[wd=\paperwidth,ht=.115\paperheight,dp=0pt]{}
+	\begin{tikzpicture}
+		\node[anchor=base east, inner xsep=0pt] (frametitle) at (.93\paperwidth,.02\paperwidth) {\usebeamerfont{frametitle}\insertframetitle};
+		\path[use as bounding box] (0,0) rectangle (\paperwidth,.115\paperheight);
+		\node[coordinate] (grayline) at (.05\paperwidth,0) {};
+		\ifx\insertframesubtitle\@empty\else%                           
+			\node[inner xsep=1ex, anchor=north east] (subtitle) at (frametitle.base east) {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle};
+			\node[coordinate] (grayline) at (grayline |- subtitle.south) {};
+		\fi%
+		\begin{scope} % Lines	
+			\pgfsetfading{LRfading}{\pgftransformshift{\pgfpoint{.5\paperwidth}{-.5\textheight}}} 
+			\draw[gray!50,ultra thin] (grayline) -- +(.9\paperwidth,0);
+		\end{scope}
+	\end{tikzpicture}
+	\end{beamercolorbox}
+	\vskip-.25em %Line 110 beamerbaseframe.sty
+	\vskip-.2cm %Line 248 beamerbaseframe.sty
+	\vskip.02\paperwidth
+}
+\defbeamertemplate*{frametitle}{caes theme}{
+	\nointerlineskip
+	\begin{beamercolorbox}[wd=\paperwidth]{}
+
+	\begin{tikzpicture}
+		\node[anchor=base east, inner xsep=0pt] (frametitle) at (.93\paperwidth,.02\paperwidth) {\usebeamerfont{frametitle}\insertframetitle};
+		\node[coordinate] (grayline) at (.05\paperwidth,0) {};
+		\ifx\insertframesubtitle\@empty\else%                           
+			\node[inner xsep=1ex, inner ysep=0pt, anchor=base east] (subtitle) at ([yshift=-.04\paperwidth] frametitle.base east) {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle};
+			\node[coordinate] (grayline) at ([yshift=-0.02\paperwidth] grayline |- subtitle.base) {};
+		\fi%
+
+		\path[use as bounding box] (TL |- grayline.south) rectangle (\paperwidth,.115\paperheight);
+		
+		\begin{scope} % Lines	
+			\pgfsetfading{BRfading}{\pgftransformshift{\pgfpoint{.5\paperwidth}{-.5\textheight}}} 
+			\draw[gray!50,ultra thin] (grayline) +(.9\paperwidth,0) -| +(0,-.5\textheight);
+		\end{scope}
+	\end{tikzpicture}
+	\end{beamercolorbox}
+	\vskip-.25em %Line 110 beamerbaseframe.sty
+	\vskip-.2cm %Line 248 beamerbaseframe.sty
+	\vskip.01\paperwidth
+}
+
+\setbeamersize{text margin left=0.07\paperwidth, text margin right=0.07\paperwidth}
+
+\makeatother
+
+\mode
+<all>

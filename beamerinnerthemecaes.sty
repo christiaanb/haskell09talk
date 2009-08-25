@@ -1,0 +1,69 @@
+%%
+%% beamerinnerthemecaes.sty
+%%
+%% Copyright (C) 2008 CAES (http://caes.ewi.utwente.nl)
+%%
+%% Authors         : Pascal Wolkotte
+%% Created On      : March 13 2008
+%%
+%% $Author: wolkottept $
+%% $Date: 2008-03-19 10:33:08 +0100 (Wed, 19 Mar 2008) $
+%% $Revision: 41 $
+%% $HeadURL: https://ewi630/svn/general/templates/caes/trunk/beamerinnerthemecaes.sty $
+%%
+
+\mode<presentation>
+
+\setbeamertemplate{sections/subsections in toc}[square]
+
+\setbeamertemplate{items}[square]
+\setbeamertemplate{itemize item}{\hbox{\vrule width 1.2ex height 1.2ex}}
+\setbeamertemplate{itemize subitem}{\hbox{\vrule width 1ex height 1ex}}
+\setbeamertemplate{itemize subsubitem}{\hbox{\vrule width .8ex height .8ex}}
+
+\addtolength{\leftmargini}{-.4\labelwidth}
+\addtolength{\leftmarginii}{-.5\labelwidth}
+\addtolength{\leftmarginiii}{-.6\labelwidth}
+
+%\pgfdeclareimage[interpolate=true, height=.1\paperheight]{ctit_logo}{ctit_logo}
+
+\makeatletter
+
+\setbeamertemplate{title page}
+{
+	\begin{centering}
+    \vfill
+    \begin{beamercolorbox}[sep=8pt,center]{title}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip.5em
+    \begin{beamercolorbox}[sep=8pt,center]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}\vskip1em
+		\ifx\beamer@shortdate\insertdate\else%
+    	\begin{beamercolorbox}[sep=4pt,center]{date}
+  	    \usebeamerfont{date}\insertshortdate
+	    \end{beamercolorbox}
+		\fi
+    \begin{beamercolorbox}[sep=4pt,center]{date}
+      \usebeamerfont{date}\insertdate
+    \end{beamercolorbox}
+%    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+    \vfill
+		\begin{tikzpicture}
+			\path[use as bounding box] (0,0) rectangle (\textwidth,1pt);
+%			\node[above left, inner sep=0pt] at (\textwidth,0) {\pgfuseimage{ctit_logo}};
+		\end{tikzpicture}
+		\begin{beamercolorbox}[sep=8pt,center]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}
+  \end{centering}
+}
+\makeatother
+			
+\mode<all>
