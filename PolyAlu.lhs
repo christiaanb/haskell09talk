@@ -56,13 +56,13 @@ type Word           =   SizedInt D12
 {
 We make a primitive operation:
 \begin{code}
-primOp :: {-"{\color<2>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
+primOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
 primOp f a b = a `f` a
 \end{code}\pause
 We make a vector operation:
 \begin{code}
-vectOp :: {-"{\color<2>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
-vectOp f a b = {-"{\color<2>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
+vectOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
+vectOp f a b = {-"{\color<3>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
 \end{code}
 }
 \subsection{Polymorphic, Higher-Order ALU}
@@ -85,15 +85,15 @@ Make a simple register bank:
 \begin{code}
 registerBank :: 
   CXT((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) =>
-  (RegState s a) -> a -> {-"{\color<2>[rgb]{1,0,0}"-}RangedWord s{-"}"-} ->
-  {-"{\color<2>[rgb]{1,0,0}"-}RangedWord s{-"}"-} -> Bit -> ((RegState s a), a )
+  (RegState s a) -> a -> RangedWord s ->
+  RangedWord s -> Bit -> ((RegState s a), a )
   
 registerBank (State mem) data_in rdaddr wraddr wrenable = 
   ((State mem'), data_out)
   where
     data_out  =   mem!rdaddr
-    mem'  {-"{\color<3>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}    = mem
-          {-"{\color<3>[rgb]{1,0,0}"-}| otherwise{-"}"-}          = replace mem wraddr data_in
+    mem'  {-"{\color<2>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}    = mem
+          {-"{\color<2>[rgb]{1,0,0}"-}| otherwise{-"}"-}          = replace mem wraddr data_in
 \end{code}
 }
 \subsection{Simple CPU: ALU \& Register Bank}

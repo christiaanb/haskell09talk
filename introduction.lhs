@@ -53,7 +53,7 @@ mealyMachine ::
   (State, OutputSignals)
 mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}, output)
   where
-    {-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}   =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
+    {-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}    =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
     outputs                                         =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
 \end{code}
 }
@@ -65,7 +65,7 @@ mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rg
 run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} [] = []
 run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
   where
-    ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o) = func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} i
-    out         = run func {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
+    ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o)  =   func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} i
+    out                                             =   run func {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
 \end{code}
 }

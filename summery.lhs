@@ -1,3 +1,4 @@
+%include talk.fmt
 \section{Conclusion}
 
 \frame{
@@ -11,6 +12,19 @@
 
 \frame{
 \begin{figure}
-\Large{Thank you for listening}
+\Huge{Thank you for listening}
 \end{figure}
+}
+
+\frame
+{
+\frametitle{Complete signature for registerBank}
+\begin{code}
+registerBank :: 
+  ( NaturalT s
+  , PositiveT (s :+: D1)
+  , ((s :+: D1) :>: s) ~ True )) =>
+  (RegState s a) -> a -> RangedWord s ->
+  RangedWord s -> Bit -> ((RegState s a), a )
+\end{code}
 }
