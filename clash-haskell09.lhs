@@ -11,12 +11,16 @@
 \begin{document}
 
 \frame{\titlepage}
+\note[itemize]{
+\item Small tour: what can we describe in \clash{}
+\item Quick real demo
+}
 
 \include{introduction}
 \include{PolyAlu}
+\include{demo}
 \include{reducer}
 \include{howdoesitwork}
-\include{demo}
 \include{summery}
 
 \end{document}

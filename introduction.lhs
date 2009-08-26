@@ -1,16 +1,5 @@
 %include talk.fmt
 \section{Introduction}
-\subsection{What will you see}
-\frame
-{
-  \frametitle{What will we see?}
-  \begin{itemize}
-    \item Small tour: what can we describe in \clash{}
-    \item Quick real demo
-  \end{itemize}
-}
-\note{Virtuele demo}
-
 \subsection{What is \texorpdfstring{\clash{}}{CLasH}}
 \frame
 {
@@ -24,23 +13,25 @@
 }
 \note[itemize]
 {
-\item Wij zijn wij
-\item \clash{} voor rapid prototyping
-\item Subset haskell vertaalbaar
-\item Mealy machine beschrijving
+\item We are a Computer Architectures group, this has been a 6 month project, no prior experience with Haskell.
+\item \clash{} is written in Haskell, of course
+\item \clash{} is currently meant for rapid prototyping, not verification of hardware desigs
+\item Functional languages are close to Hardware
+\item We can only translate a subset of Haskell
+\item All functions are descriptions of Mealy Machines
 }
 
 \subsection{Mealy Machine}
 \frame
 {
-\frametitle{Mealy Machine}
+\frametitle{What again is a Mealy Machine?}
   \begin{figure}
   \centerline{\includegraphics[width=10cm]{mealymachine}}
   \label{img:mealymachine}
   \end{figure}
 }
-\note{
-Voor wie het niet meer weet, dit is een mealy machine
+\note[itemize]{
+\item Mealy machine bases its output on current input and previous state
 }
 
 \frame
@@ -58,7 +49,16 @@ mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rg
     outputs                                         =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
 \end{code}
 \end{beamercolorbox}
+\begin{itemize}
+\uncover<2->{\item Current state is part of the input}
+\uncover<3->{\item New state is part of the output}
+\end{itemize}
 }
+\note[itemize]{
+\item State is part of the function signature
+\item Both the current state, as the updated State
+}
+
 \subsection{Simulation}
 \frame
 {
@@ -72,4 +72,12 @@ run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
     out                                             =   run func {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
 \end{code}
 \end{beamercolorbox}
+\begin{itemize}
+\item State behaves like an accumulator
+\end{itemize}
 }
+\note[itemize]{
+\item This is just a quick example of how we can simulate the mealy machine
+\item It sort of behaves like MapAccumN
+}
+

@@ -18,6 +18,11 @@ import qualified Prelude as P
   \item Each function is turned into a hardware component
   \item Use of state will be simple
 \end{itemize}
+}\note[itemize]{
+\item Small "toy"-example of what can be done in \clash{}
+\item Show what can be translated to Hardware
+\item Put your hardware glasses on: each function will be a component
+\item Use of state will be kept simple
 }
 
 \frame
@@ -36,6 +41,9 @@ Import annotations, helps \clash{} to find top-level component:
 import CLasH.Translator.Annotations
 \end{code}
 \end{beamercolorbox}
+}\note[itemize]{
+\item The first input is always needed, as it contains the builtin types
+\item The second one is only needed if you want to make use of Annotations
 }
 
 \subsection{Type Definitions}
@@ -64,6 +72,11 @@ And a simple Word type:
 type Word           =   SizedInt D12
 \end{code}
 \end{beamercolorbox}
+}\note[itemize]{
+\item The first type is already polymorphic, both in size, and element type
+\item It's a small example, so Opcode is just a Bit
+\item State has to be of the State type to be recognized as such
+\item SizedInt D12: One concrete type for now, to make the signatures smaller
 }
 
 \subsection{Frameworks for Operations}
@@ -88,7 +101,11 @@ vectOp f a b = {-"{\color<3>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
 \begin{itemize}
 \uncover<3->{\item We support Higher-Order Functionality}
 \end{itemize}
+}\note[itemize]{
+\item These are just frameworks for 'real' operations
+\item Notice how they are High-Order functions
 }
+
 \subsection{Polymorphic, Higher-Order ALU}
 \frame
 {
@@ -107,7 +124,11 @@ alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \begin{itemize}
 \uncover<2->{\item We support Patter Matching}
 \end{itemize}
+}\note[itemize]{
+\item Alu is both higher-order, and polymorphic
+\item We support pattern matching
 }
+
 \subsection{Register bank}
 \frame
 {
@@ -130,7 +151,12 @@ registerBank (State mem) data_in rdaddr wraddr wrenable =
 \begin{itemize}
 \uncover<2->{\item We support Guards}
 \end{itemize}
+}\note[itemize]{
+\item RangedWord runs from 0 to the upper bound
+\item mem is statefull
+\item We support guards
 }
+
 \subsection{Simple CPU: ALU \& Register Bank}
 \frame
 {
@@ -153,6 +179,11 @@ actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = (ram', alu_out)
 \begin{itemize}
 \uncover<2->{\item Annotation is used to indicate top-level component}
 \end{itemize}
+}\note[itemize]{
+\item We use the new Annotion functionality to indicate this is the top level
+\item the primOp and vectOp frameworks are now supplied with real functionality, the plus (+) operations
+\item No polymorphism or higher-order stuff is allowed at this level.
+\item Functions must be specialized, and have primitives for input and output 
 }
 
 %if style == newcode
@@ -180,7 +211,7 @@ main = do
   let input = program
   let istate = initstate
   let output = run actual_cpu istate input
-  mapM_ (\x -> putStr $ ("# (" P.++ (show x) P.++ ")\n")) output
+  mapM_ (\x -> putStr $ ("(" P.++ (show x) P.++ ")\n")) output
   return ()
 \end{code}
 %endif
