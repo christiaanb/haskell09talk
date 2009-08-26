@@ -2,7 +2,7 @@
 %if style == newcode
 \begin{code}
 {-# LANGUAGE  TypeOperators, TypeFamilies, FlexibleContexts #-}
-module PolyCPU where
+module Main where
 
 import qualified Prelude as P
 \end{code}
@@ -24,51 +24,77 @@ import qualified Prelude as P
 {
 \frametitle{Imports}
 Import all the built-in types, such as vectors and integers:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 import CLasH.HardwareTypes
-\end{code}\pause
+\end{code}
+\end{beamercolorbox}\pause
+
 Import annotations, helps \clash{} to find top-level component:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 import CLasH.Translator.Annotations
 \end{code}
+\end{beamercolorbox}
 }
 
 \subsection{Type Definitions}
 \frame
 {
+\frametitle{Type definitions}
 First we define some ALU types:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 type Op s a         =   a -> Vector s a -> a
 type Opcode         =   Bit
-\end{code}\pause
+\end{code}
+\end{beamercolorbox}\pause
+
 And some Register types:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 type RegBank s a    =   Vector (s :+: D1) a
 type RegState s a   =   State (RegBank s a)
-\end{code}\pause
+\end{code}
+\end{beamercolorbox}\pause
+
 And a simple Word type:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 type Word           =   SizedInt D12
 \end{code}
+\end{beamercolorbox}
 }
+
 \subsection{Frameworks for Operations}
 \frame
 {
+\frametitle{Operations}
 We make a primitive operation:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 primOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
 primOp f a b = a `f` a
-\end{code}\pause
+\end{code}
+\end{beamercolorbox}\pause
+
 We make a vector operation:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 vectOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
 vectOp f a b = {-"{\color<3>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
 \end{code}
+\end{beamercolorbox}
+\begin{itemize}
+\uncover<3->{\item We support Higher-Order Functionality}
+\end{itemize}
 }
 \subsection{Polymorphic, Higher-Order ALU}
 \frame
 {
+\frametitle{Simple ALU}
 We define a polymorphic ALU:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 alu :: 
   Op s a -> 
@@ -77,15 +103,20 @@ alu ::
 alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}Low{-"}"-}    a b = op1 a b
 alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \end{code}
+\end{beamercolorbox}
+\begin{itemize}
+\uncover<2->{\item We support Patter Matching}
+\end{itemize}
 }
 \subsection{Register bank}
 \frame
 {
+\frametitle{Register Bank}
 Make a simple register bank:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 registerBank :: 
-  CXT((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) =>
-  (RegState s a) -> a -> RangedWord s ->
+  CXT((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) => (RegState s a) -> a -> RangedWord s ->
   RangedWord s -> Bit -> ((RegState s a), a )
   
 registerBank (State mem) data_in rdaddr wraddr wrenable = 
@@ -95,11 +126,17 @@ registerBank (State mem) data_in rdaddr wraddr wrenable =
     mem'  {-"{\color<2>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}    = mem
           {-"{\color<2>[rgb]{1,0,0}"-}| otherwise{-"}"-}          = replace mem wraddr data_in
 \end{code}
+\end{beamercolorbox}
+\begin{itemize}
+\uncover<2->{\item We support Guards}
+\end{itemize}
 }
 \subsection{Simple CPU: ALU \& Register Bank}
 \frame
 {
+\frametitle{Simple CPU}
 Combining ALU and register bank:
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 {-"{\color<2>[rgb]{1,0,0}"-}ANN(actual_cpu TopEntity){-"}"-}
 actual_cpu :: 
@@ -107,12 +144,43 @@ actual_cpu ::
   RangedWord D9, Bit) ->  RegState D9 Word ->
   (RegState D9 Word, Word)
 
-actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = 
-  (ram', alu_out)
+actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = (ram', alu_out)
   where
-    alu_out = alu simpleOp vectorOp opc ram_out b
+    alu_out = alu ({-"{\color<3>[rgb]{1,0,0}"-}primOp (+){-"}"-}) ({-"{\color<3>[rgb]{1,0,0}"-}vectOp (+){-"}"-}) opc ram_out b
     (ram',ram_out)  = registerBank ram a rdaddr wraddr wren
-    simpleOp =  primOp  (+)
-    vectorOp =  vectOp  (+)
 \end{code}
+\end{beamercolorbox}
+\begin{itemize}
+\uncover<2->{\item Annotation is used to indicate top-level component}
+\end{itemize}
 }
+
+%if style == newcode
+\begin{code}
+ANN(initstate InitState)
+initstate :: RegState D9 Word
+initstate = State (copy (0 :: Word))  
+  
+ANN(program TestInput)
+program :: [(Opcode, Word, Vector D4 Word, RangedWord D9, RangedWord D9, Bit)]
+program =
+  [ (Low, 4, copy (0::Word), 0, 0, High) -- Write 4 to Reg0, out = 0
+  , (Low, 3, copy (0::Word), 0, 1, High) -- Write 3 to Reg1, out = Reg0 + Reg0 = 8
+  , (High,0, copy (3::Word), 1, 0, Low)  -- No Write       , out = 15
+  ]
+
+run func state [] = []
+run func state (i:input) = o:out
+  where
+    (state', o) = func i state
+    out         = run func state' input
+    
+main :: IO ()
+main = do
+  let input = program
+  let istate = initstate
+  let output = run actual_cpu istate input
+  mapM_ (\x -> putStr $ ("# (" P.++ (show x) P.++ ")\n")) output
+  return ()
+\end{code}
+%endif

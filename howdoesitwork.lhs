@@ -8,7 +8,7 @@
     \item No Effort:\\
     GHC API Parses, Typechecks and Desugars Haskell \pause
     \item Hard.. sort of: \\
-    Transform resulting Core, GHC's Intermediate Language, to a normal form \pause
+    Transform resulting Core, GHC's Intermediate Language,\linebreak to a normal form \pause
     \item Easy: \\
     Translate Normalized Core to synthesizable VHDL
   \end{itemize}

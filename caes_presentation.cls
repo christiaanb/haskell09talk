@@ -26,7 +26,7 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 %\DeclareOption*{\PassOptionsToClass{\CurrentOption}{beamer}}
 \ProcessOptions\relax
-\LoadClass[t,12pt,hyperref={unicode},notes=show]{beamer}
+\LoadClass[t,11pt,hyperref={unicode},notes=show]{beamer}
 
 \pdfpageattr {/Group << /S /Transparency /I true /CS /DeviceRGB>>} %Solves colorshift due to transparency in figures
 \RequirePackage{tikz}

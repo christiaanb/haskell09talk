@@ -46,6 +46,7 @@ Voor wie het niet meer weet, dit is een mealy machine
 \frame
 {
 \frametitle{Haskell Description}
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 mealyMachine :: 
   InputSignals ->
@@ -56,16 +57,19 @@ mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rg
     {-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}    =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
     outputs                                         =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
 \end{code}
+\end{beamercolorbox}
 }
 \subsection{Simulation}
 \frame
 {
 \frametitle{Simulating a Mealy Machine}
+\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} [] = []
 run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
   where
-    ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o)  =   func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} i
+    ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o)  =   func i {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}
     out                                             =   run func {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
 \end{code}
+\end{beamercolorbox}
 }
