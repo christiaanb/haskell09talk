@@ -12,10 +12,10 @@ import qualified Prelude as P
 \subsection{Introduction}
 \frame
 {
-\frametitle{Small Use Case}
+\frametitle{Small Use Case}\pause
 \begin{itemize}
-  \item Small Polymorphic, Higher-Order CPU
-  \item Each function is turned into a hardware component
+  \item Small Polymorphic, Higher-Order CPU\pause
+  \item Each function is turned into a hardware component\pause
   \item Use of state will be simple
 \end{itemize}
 }\note[itemize]{
@@ -27,7 +27,7 @@ import qualified Prelude as P
 
 \frame
 {
-\frametitle{Imports}
+\frametitle{Imports}\pause
 Import all the built-in types, such as vectors and integers:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
@@ -49,7 +49,7 @@ import CLasH.Translator.Annotations
 \subsection{Type Definitions}
 \frame
 {
-\frametitle{Type definitions}
+\frametitle{Type definitions}\pause
 First we define some ALU types:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
@@ -82,11 +82,11 @@ type Word           =   SizedInt D12
 \subsection{Frameworks for Operations}
 \frame
 {
-\frametitle{Operations}
+\frametitle{Operations}\pause
 We make a primitive operation:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
-primOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
+primOp :: {-"{\color<4>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
 primOp f a b = a `f` a
 \end{code}
 \end{beamercolorbox}\pause
@@ -94,12 +94,12 @@ primOp f a b = a `f` a
 We make a vector operation:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
-vectOp :: {-"{\color<3>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
-vectOp f a b = {-"{\color<3>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
+vectOp :: {-"{\color<4>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
+vectOp f a b = {-"{\color<4>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
 \end{code}
 \end{beamercolorbox}
 \begin{itemize}
-\uncover<3->{\item We support Higher-Order Functionality}
+\uncover<4->{\item We support Higher-Order Functionality}
 \end{itemize}
 }\note[itemize]{
 \item These are just frameworks for 'real' operations

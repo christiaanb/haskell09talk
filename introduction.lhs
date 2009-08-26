@@ -3,11 +3,11 @@
 \subsection{What is \texorpdfstring{\clash{}}{CLasH}}
 \frame
 {
-  \frametitle{What is \clash{}?}
+  \frametitle{What is \clash{}?}\pause
   \begin{itemize}
-    \item \clash{}: CAES Language for Hardware Descriptions
-    \item Rapid prototyping language
-    \item Subset of Haskell can be translated to Hardware (VHDL)
+    \item \clash{}: CAES Language for Hardware Descriptions\pause
+    \item Rapid prototyping language\pause
+    \item Subset of Haskell can be translated to Hardware (VHDL)\pause
     \item Structural Description of a Mealy Machine
   \end{itemize}
 }

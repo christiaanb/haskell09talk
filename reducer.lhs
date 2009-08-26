@@ -4,8 +4,8 @@
 \pause
 \begin{itemize}
   \item We designed a matrix reduction circuit\pause
-  \item Simulation results in Haskell match VHDL simulation results
-  \item Synthesis completes without errors or warnings
+  \item Simulation results in Haskell match VHDL simulation results\pause
+  \item Synthesis completes without errors or warnings\pause
   \item It runs at half the speed of a hand-coded VHDL design
 \end{itemize}
 }\note[itemize]{
