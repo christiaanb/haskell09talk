@@ -19,7 +19,10 @@ TEXSRCS = \
   preamble.tex
 
 SVGFIGURES = \
-  mealymachine.svg
+  mealymachine.svg \
+  mealymachine2.svg \
+  simpleCPU.svg \
+  reducer.svg
 
 default: clash-haskell09
 
