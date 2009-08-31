@@ -5,8 +5,8 @@
 \frametitle{Some final words}
 \begin{itemize}
   \item Still a lot to do: translate larger subset of Haskell
-  \item Real world prototypes can be made in \clash{}
-  \item \clash{} is another great example of how to bring functional expressivity to hardware designs
+  \item Real world prototype designs can already be made in \clash{}
+%  \item \clash{} is another great example of how to bring functional expressivity to hardware designs
 \end{itemize}
 }
 
@@ -36,4 +36,31 @@ registers ::
   (RegState s a) -> 
   (RegState s a, a )
 \end{code}
+}
+
+\frame
+{
+\frametitle{Supported Functionality}
+\begin{itemize}
+\item Polymorphism
+\item Higher Order Functions
+\item Fixed-Size Vectors (Simulation)
+\item Ranged and Sized Integers (Simulation)
+\item Custom Datatypes
+\item Booleans, Tuples
+\item Pattern Matching
+\item Guards
+\end{itemize}
+}
+
+\frame
+{
+\frametitle{Unsupported Functionality}
+\begin{itemize}
+\item Recursions
+\item Lists (Dynamic Length)
+\item Standard Haskell Types: Integer, Char, etc.
+\item Monads
+\item And much much more...
+\end{itemize}
 }

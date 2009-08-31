@@ -18,29 +18,12 @@
 \item \clash{} is currently meant for rapid prototyping, not verification of hardware designs
 \item Functional languages are close to Hardware
 \item We can only translate a subset of Haskell
-\item All functions are descriptions of Mealy Machines
+\item All functions are structural descriptions with a Mealy Machines perspective
 }
-
-% \subsection{Mealy Machine}
-% \frame
-% {
-% \frametitle{What is a Mealy Machine again?}
-%   \begin{figure}
-%   \centerline{\includegraphics[width=10cm]{mealymachine}}
-%   \label{img:mealymachine}
-%   \end{figure}
-% }
-% \note[itemize]{
-% \item Mealy machine bases its output on current input and previous state
-% \item: TODO: Integrate this slide with the next two. First, show the picture
-% with the mealyMachine type signature (and rename it to "func"). Then, show the
-% run function, without type signature. Focus is on correspondence to the
-% picture.
-% }
 
 \frame
 {
-\frametitle{Haskell Description}
+\frametitle{Mealy Machine}
 \begin{figure}
 \centerline{\includegraphics<1>[width=6.25cm]{mealymachine2}
 \includegraphics<2>[width=6.25cm]{mealymachine2-func-red}
@@ -49,8 +32,8 @@
 \end{figure}
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
-run func {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-} [] = []
-run func {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-} (i:inputs) = o:outputs
+run {-"{\color<2>[rgb]{1,0,0}"-}func{-"}"-} {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-} [] = []
+run {-"{\color<2>[rgb]{1,0,0}"-}func{-"}"-} {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-} (i:inputs) = o:outputs
   where
     ({-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-}, o)  =   {-"{\color<2>[rgb]{1,0,0}"-}func{-"}"-} i {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-}
     outputs                                         =   run {-"{\color<2>[rgb]{1,0,0}"-}func{-"}"-} {-"{\color<3>[rgb]{1,0,0}"-}state'{-"}"-} input
@@ -58,8 +41,10 @@ run func {-"{\color<3>[rgb]{1,0,0}"-}state{-"}"-} (i:inputs) = o:outputs
 \end{beamercolorbox}
 }
 \note[itemize]{
+\item A Mealy machine bases its output on the current state and the input
 \item State is part of the function signature
-\item Both the current state, as the updated State
+\item Both the current state, and the updated State
+\item The run function simulates a mealy machine for the provided number of inputs
 }
 
 \frame
@@ -76,4 +61,8 @@ func ::
   (State, OutputSignal)
 \end{code}
 \end{beamercolorbox}
+}
+\note[itemize]{
+\item In \clash{} you describe the logic part of the mealy machine
+\item The state in the signature is turned into memory elements when translating to VHDL
 }

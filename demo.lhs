@@ -3,6 +3,7 @@
 \frame{
 \frametitle{Demo}
 \begin{itemize}
+  \item Pre-Recored Video: VHDL Synthesis takes too long
   \item Simulate the CPU description
   \item Translate the CPU to VHDL
   \item Simulate the generated VHDL
@@ -14,9 +15,9 @@
 \frame{
 \frametitle{Generated Schematic}
 \begin{figure}
-\centerline{\includegraphics<1>[width=10cm]{cpucomplete}
-\includegraphics<2>[width=10cm]{cpualu}
-\includegraphics<3>[height=6cm]{cpuregisters}}
+\centerline{\includegraphics<1>[width=10.3cm]{cpucomplete}
+\includegraphics<2>[width=11.3cm]{cpualu}
+\includegraphics<3>[height=6.3cm]{cpuregisters}}
 \end{figure}
 }
 

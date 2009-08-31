@@ -21,6 +21,7 @@ import qualified Prelude as P
 \includegraphics[width=4.75cm]{simpleCPU}
 \end{figure}
 \column{0.5\textwidth}
+\vspace{5em}
 \begin{itemize}
   \item Polymorphic, Higher-Order CPU
   \item Use of state will be simple
@@ -49,9 +50,10 @@ First we define some ALU types:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
 type Op a         =   a -> a -> a
+type Opcode       =   Bit
 \end{code}
 \end{beamercolorbox}\pause
-\vspace{2.5em}
+\vspace{1em}
 And some Register types:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
@@ -68,7 +70,8 @@ type Word = SizedInt D12
 %endif
 \end{columns}
 }\note[itemize]{
-\item The first type is already polymorphic in input / output type
+\item The ALU operation is already polymorphic in input / output type
+\item We use a fixed size vector as the placeholder for the registers
 \item State has to be of the State type to be recognized as such
 }
 
@@ -82,7 +85,6 @@ type Word = SizedInt D12
 Abstract ALU definition:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
-type Opcode         =   Bit
 alu :: 
   Op a -> Op a -> 
   Opcode -> a -> a -> a
@@ -92,7 +94,7 @@ alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \end{beamercolorbox}
 }\note[itemize]{
 \item Alu is both higher-order, and polymorphic
-\item Two parameters are "compile time", others are "runtime"
+\item First two parameters are "compile time", other three are "runtime"
 \item We support pattern matching
 }
 
@@ -121,10 +123,8 @@ registers data_in rdaddr wraddr (State mem) =
 \end{code}
 \end{beamercolorbox}
 }\note[itemize]{
-\item RangedWord runs from 0 to the upper bound
-\item mem is statefull
-\item We support guards
-\item replace is a builtin function
+\item mem is statefull, indicated by the 'State' type
+\item replace and (!) are a builtin functions
 }
 
 \subsection{Simple CPU: ALU \& Register Bank}
@@ -155,7 +155,7 @@ cpu (opc, d, rdaddr, wraddr) ram = (ram', alu_out)
 \end{itemize}
 }\note[itemize]{
 \item We use the new Annotion functionality to indicate this is the top level. TopEntity is defined by us.
-\item the primOp and vectOp frameworks are now supplied with real functionality, the plus (+) operations
+\item At this stage, both operations for the ALU are defined
 \item No polymorphism or higher-order stuff is allowed at this level.
 \item Functions must be specialized, and have primitives for input and output 
 }

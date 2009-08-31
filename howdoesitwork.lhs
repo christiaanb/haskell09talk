@@ -14,7 +14,8 @@
   \end{itemize}
 }\note[itemize]{
 \item Here is a quick insight as to how WE translate Haskell to Hardware
+\item Reduction rules are used to get a required normal form.
 \item Normal form already looks like hardware (components and lines)
-\item You can also use TH, like ForSyDe. Or traverse datastructures, like ?
+\item You can also use TH, like ForSyDe. Or traverse datastructures, like Lava?
 \item We're in luck with the GHC API update of 6.10 and onwards
 }
