@@ -5,15 +5,15 @@
 {
   \frametitle{What is \clash{}?}\pause
   \begin{itemize}
-    \item \clash{}: CAES Language for Hardware Descriptions\pause
+    \item \clash{}: CAES Language for Hardware\pause
     \item Rapid prototyping language\pause
     \item Subset of Haskell can be translated to Hardware (VHDL)\pause
-    \item Structural Description of a Mealy Machine
+    \item Structural Description of the logic part of a Mealy Machine
   \end{itemize}
 }
 \note[itemize]
 {
-\item We are a Computer Architectures group, this has been a 6 month project, no prior experience with Haskell.
+\item We are a Computer Architectures group, this has been a Masters' project, no prior experience with Haskell.
 \item \clash{} is written in Haskell, of course
 \item \clash{} is currently meant for rapid prototyping, not verification of hardware desigs
 \item Functional languages are close to Hardware
@@ -24,7 +24,7 @@
 \subsection{Mealy Machine}
 \frame
 {
-\frametitle{What again is a Mealy Machine?}
+\frametitle{What is a Mealy Machine again?}
   \begin{figure}
   \centerline{\includegraphics[width=10cm]{mealymachine}}
   \label{img:mealymachine}
@@ -32,6 +32,10 @@
 }
 \note[itemize]{
 \item Mealy machine bases its output on current input and previous state
+\item: TODO: Integrate this slide with the next two. First, show the picture
+with the mealyMachine type signature (and rename it to "func"). Then, show the
+run function, without type signature. Focus is on correspondence to the
+picture.
 }
 
 \frame
@@ -43,10 +47,6 @@ mealyMachine ::
   InputSignals ->
   {-"{\color<2>[rgb]{1,0,0}"-}State{-"}"-} ->
   (State, OutputSignals)
-mealyMachine inputs {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} = ({-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}, output)
-  where
-    {-"{\color<3>[rgb]{1,0,0}"-}new_state{-"}"-}    =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
-    outputs                                         =   logic     {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-}   input
 \end{code}
 \end{beamercolorbox}
 \begin{itemize}
@@ -74,6 +74,7 @@ run func {-"{\color<2>[rgb]{1,0,0}"-}state{-"}"-} (i:input) = o:out
 \end{beamercolorbox}
 \begin{itemize}
 \item State behaves like an accumulator
+\item Input is a (normal) list of inputs, one for each cycle
 \end{itemize}
 }
 \note[itemize]{

@@ -13,9 +13,9 @@ import qualified Prelude as P
 \frame
 {
 \frametitle{Small Use Case}\pause
+TODO: Plaatje
 \begin{itemize}
-  \item Small Polymorphic, Higher-Order CPU\pause
-  \item Each function is turned into a hardware component\pause
+  \item Polymorphic, Higher-Order CPU\pause
   \item Use of state will be simple
 \end{itemize}
 }\note[itemize]{
@@ -25,36 +25,15 @@ import qualified Prelude as P
 \item Use of state will be kept simple
 }
 
-\frame
-{
-\frametitle{Imports}\pause
-Import all the built-in types, such as vectors and integers:
-\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
-\begin{code}
-import CLasH.HardwareTypes
-\end{code}
-\end{beamercolorbox}\pause
-
-Import annotations, helps \clash{} to find top-level component:
-\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
-\begin{code}
-import CLasH.Translator.Annotations
-\end{code}
-\end{beamercolorbox}
-}\note[itemize]{
-\item The first input is always needed, as it contains the builtin types
-\item The second one is only needed if you want to make use of Annotations
-}
-
 \subsection{Type Definitions}
 \frame
 {
 \frametitle{Type definitions}\pause
+TODO: Plaatje van de ALU
 First we define some ALU types:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
-type Op s a         =   a -> Vector s a -> a
-type Opcode         =   Bit
+type Op a         =   a -> a -> a
 \end{code}
 \end{beamercolorbox}\pause
 
@@ -65,58 +44,22 @@ type RegBank s a    =   Vector (s :+: D1) a
 type RegState s a   =   State (RegBank s a)
 \end{code}
 \end{beamercolorbox}\pause
-
-And a simple Word type:
-\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
-\begin{code}
-type Word           =   SizedInt D12
-\end{code}
-\end{beamercolorbox}
 }\note[itemize]{
-\item The first type is already polymorphic, both in size, and element type
-\item It's a small example, so Opcode is just a Bit
+\item The first type is already polymorphic in input / output type
 \item State has to be of the State type to be recognized as such
-\item SizedInt D12: One concrete type for now, to make the signatures smaller
-}
-
-\subsection{Frameworks for Operations}
-\frame
-{
-\frametitle{Operations}\pause
-We make a primitive operation:
-\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
-\begin{code}
-primOp :: {-"{\color<4>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
-primOp f a b = a `f` a
-\end{code}
-\end{beamercolorbox}\pause
-
-We make a vector operation:
-\begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
-\begin{code}
-vectOp :: {-"{\color<4>[rgb]{1,0,0}"-}(a -> a -> a){-"}"-} -> Op s a
-vectOp f a b = {-"{\color<4>[rgb]{1,0,0}"-}foldl{-"}"-} f a b
-\end{code}
-\end{beamercolorbox}
-\begin{itemize}
-\uncover<4->{\item We support Higher-Order Functionality}
-\end{itemize}
-}\note[itemize]{
-\item These are just frameworks for 'real' operations
-\item Notice how they are High-Order functions
 }
 
 \subsection{Polymorphic, Higher-Order ALU}
 \frame
 {
 \frametitle{Simple ALU}
-We define a polymorphic ALU:
+Abstract ALU definition:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
 \begin{code}
+type Opcode         =   Bit
 alu :: 
-  Op s a -> 
-  Op s a -> 
-  Opcode -> a -> Vector s a -> a
+  Op a -> Op a -> 
+  Opcode -> a -> a -> a
 alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}Low{-"}"-}    a b = op1 a b
 alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \end{code}
@@ -126,6 +69,7 @@ alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \end{itemize}
 }\note[itemize]{
 \item Alu is both higher-order, and polymorphic
+\item Two parameters are "compile time", others are "runtime"
 \item We support pattern matching
 }
 
@@ -135,17 +79,17 @@ alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \frametitle{Register Bank}
 Make a simple register bank:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
+TODO: Hide type sig
 \begin{code}
 registerBank :: 
-  CXT((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) => (RegState s a) -> a -> RangedWord s ->
-  RangedWord s -> Bit -> ((RegState s a), a )
+  CXT((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) => a -> RangedWord s ->
+  RangedWord s -> Bool -> (RegState s a) -> ((RegState s a), a )
   
-registerBank (State mem) data_in rdaddr wraddr wrenable = 
+registerBank data_in rdaddr wraddr (State mem) = 
   ((State mem'), data_out)
   where
-    data_out  =   mem!rdaddr
-    mem'  {-"{\color<2>[rgb]{1,0,0}"-}| wrenable == Low{-"}"-}    = mem
-          {-"{\color<2>[rgb]{1,0,0}"-}| otherwise{-"}"-}          = replace mem wraddr data_in
+    data_out  = mem!rdaddr
+    mem'      = replace mem wraddr data_in
 \end{code}
 \end{beamercolorbox}
 \begin{itemize}
@@ -155,6 +99,7 @@ registerBank (State mem) data_in rdaddr wraddr wrenable =
 \item RangedWord runs from 0 to the upper bound
 \item mem is statefull
 \item We support guards
+\item replace is a builtin function
 }
 
 \subsection{Simple CPU: ALU \& Register Bank}
@@ -163,24 +108,24 @@ registerBank (State mem) data_in rdaddr wraddr wrenable =
 \frametitle{Simple CPU}
 Combining ALU and register bank:
 \begin{beamercolorbox}[sep=-2.5ex,rounded=true,shadow=true,vmode]{codebox}
+TODO: Hide Instruction type?
 \begin{code}
+type Instruction = (Opcode, Word, RangedWord D9, RangedWord D9) ->  RegState D9 Word ->
 {-"{\color<2>[rgb]{1,0,0}"-}ANN(actual_cpu TopEntity){-"}"-}
 actual_cpu :: 
-  (Opcode, Word, Vector D4 Word, RangedWord D9, 
-  RangedWord D9, Bit) ->  RegState D9 Word ->
-  (RegState D9 Word, Word)
+  Instruction -> RegState D9 Word -> (RegState D9 Word, Word)
 
-actual_cpu (opc, a ,b, rdaddr, wraddr, wren) ram = (ram', alu_out)
+actual_cpu (opc, d, rdaddr, wraddr) ram = (ram', alu_out)
   where
-    alu_out = alu ({-"{\color<3>[rgb]{1,0,0}"-}primOp (+){-"}"-}) ({-"{\color<3>[rgb]{1,0,0}"-}vectOp (+){-"}"-}) opc ram_out b
-    (ram',ram_out)  = registerBank ram a rdaddr wraddr wren
+    alu_out = alu ({-"{\color<3>[rgb]{1,0,0}"-}(+){-"}"-}) ({-"{\color<3>[rgb]{1,0,0}"-}(-){-"}"-}) opc d ram_out
+    (ram',ram_out)  = registerBank alu_out rdaddr wraddr ram
 \end{code}
 \end{beamercolorbox}
 \begin{itemize}
 \uncover<2->{\item Annotation is used to indicate top-level component}
 \end{itemize}
 }\note[itemize]{
-\item We use the new Annotion functionality to indicate this is the top level
+\item We use the new Annotion functionality to indicate this is the top level. TopEntity is defined by us.
 \item the primOp and vectOp frameworks are now supplied with real functionality, the plus (+) operations
 \item No polymorphism or higher-order stuff is allowed at this level.
 \item Functions must be specialized, and have primitives for input and output 
