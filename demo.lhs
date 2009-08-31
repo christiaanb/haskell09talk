@@ -3,11 +3,13 @@
 \frame{
 \frametitle{Demo}
 \begin{itemize}
-  \item We will simulate the small CPU from earlier
+  \item We will simulate the small CPU
   \item Translate that CPU code to VHDL
   \item Simulate the generated VHDL
   \item See the hardware schematic of the synthesized VHDL
 \end{itemize}
+}\note[itemize]{
+\item Will show video
 }
 
 % 

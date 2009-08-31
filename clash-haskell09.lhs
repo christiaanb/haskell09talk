@@ -6,6 +6,7 @@
 \title{\clash{}}
 \subtitle{From Haskell To Hardware}
 \author{Christiaan Baaij \& Matthijs Kooijman}
+\author{Supervisor: Jan Kuper}
 \date{September 3, 2009}
 
 \begin{document}
