@@ -3,13 +3,21 @@
 \frame{
 \frametitle{Demo}
 \begin{itemize}
-  \item We will simulate the small CPU
-  \item Translate that CPU code to VHDL
+  \item Simulate the CPU description
+  \item Translate the CPU to VHDL
   \item Simulate the generated VHDL
-  \item See the hardware schematic of the synthesized VHDL
 \end{itemize}
 }\note[itemize]{
 \item Will show video
+}
+
+\frame{
+\frametitle{Generated Schematic}
+\begin{figure}
+\centerline{\includegraphics<1>[width=10cm]{cpucomplete}
+\includegraphics<2>[width=10cm]{cpualu}
+\includegraphics<3>[height=6cm]{cpuregisters}}
+\end{figure}
 }
 
 % 

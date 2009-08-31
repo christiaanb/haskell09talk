@@ -29,6 +29,34 @@
 
 \makeatletter
 
+%
+%
+% The \committee command
+%
+%
+\def\committee{\@dblarg\beamer@committee}
+\long\def\beamer@committee[#1]#2{%
+  \def\beamer@temp{#2}%
+  \ifx\beamer@temp\@empty
+    \def\insertcommittee{}
+  \else
+    \def\insertcommittee{\def\inst{\beamer@committee}\def\and{\beamer@andcommittee}#2}%
+  \fi
+ \def\beamer@shortcommittee{#1}}
+\committee{}
+
+\def\beamer@instcommittee#1{{\donotcoloroutermaths$^{#1}$}\ignorespaces}
+\def\beamer@andcommittee{\\[1em]}
+
+\newcommand\insertshortcommittee[1][]{%
+  {%
+    \let\thanks=\@gobble%
+    \def\inst{\beamer@committeeother}\def\and{\beamer@andcommittee}%
+    \beamer@setupshort{#1}%
+    \beamer@insertshort{\beamer@shortcommittee}%
+  }}
+
+
 \setbeamertemplate{title page}
 {
 	\begin{centering}
@@ -51,7 +79,7 @@
 	    \end{beamercolorbox}
 		\fi
     \begin{beamercolorbox}[sep=4pt,center]{date}
-      \usebeamerfont{date}\insertdate
+      \usebeamerfont{date}\insertcommittee
     \end{beamercolorbox}
 %    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
     \vfill

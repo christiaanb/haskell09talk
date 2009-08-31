@@ -22,34 +22,18 @@
 
 \frame
 {
-\frametitle{Complete signature for registerBank}
+\frametitle{Complete signatures and Types}
 \begin{code}
-registerBank :: 
-  ( NaturalT s
+type Word         =   SizedInt D12  
+type Instruction  =   ( Opcode, Word, RangedWord D9
+                      , RangedWord D9 )
+
+registers :: 
+  ( NaturalT s 
   , PositiveT (s :+: D1)
-  , ((s :+: D1) :>: s) ~ True )) =>
-  (RegState s a) -> a -> RangedWord s ->
-  RangedWord s -> Bit -> ((RegState s a), a )
+  , ((s :+: D1) :>: s) ~ True )) => 
+  a -> RangedWord s -> RangedWord s -> 
+  (RegState s a) -> 
+  (RegState s a, a )
 \end{code}
-}
-
-\frame{
-\begin{figure}
-\centerline{\includegraphics[width=12cm]{polyaluhardware}}
-\label{img:mealymachine}
-\end{figure}
-}
-
-\frame{
-\begin{figure}
-\centerline{\includegraphics[width=12cm]{polyaluhardware-reg}}
-\label{img:mealymachine}
-\end{figure}
-}
-
-\frame{
-\begin{figure}
-\centerline{\includegraphics[width=12cm]{polyaluhardware-add}}
-\label{img:mealymachine}
-\end{figure}
 }

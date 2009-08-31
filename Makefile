@@ -19,8 +19,9 @@ TEXSRCS = \
   preamble.tex
 
 SVGFIGURES = \
-  mealymachine.svg \
   mealymachine2.svg \
+  mealymachine2-func-red.svg \
+  mealymachine2-state-red.svg \
   simpleCPU.svg \
   reducer.svg
 
