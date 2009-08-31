@@ -122,7 +122,7 @@ alu op1 op2 {-"{\color<2>[rgb]{1,0,0}"-}High{-"}"-}   a b = op2 a b
 \end{code}
 \end{beamercolorbox}
 \begin{itemize}
-\uncover<2->{\item We support Patter Matching}
+\uncover<2->{\item We support Pattern Matching}
 \end{itemize}
 }\note[itemize]{
 \item Alu is both higher-order, and polymorphic
@@ -195,9 +195,9 @@ initstate = State (copy (0 :: Word))
 ANN(program TestInput)
 program :: [(Opcode, Word, Vector D4 Word, RangedWord D9, RangedWord D9, Bit)]
 program =
-  [ (Low, 4, copy (0::Word), 0, 0, High) -- Write 4 to Reg0, out = 0
-  , (Low, 3, copy (0::Word), 0, 1, High) -- Write 3 to Reg1, out = Reg0 + Reg0 = 8
-  , (High,0, copy (3::Word), 1, 0, Low)  -- No Write       , out = 15
+  [ (Low, 4, copy (0), 0, 0, High) -- Write 4 to Reg0, out = 0
+  , (Low, 3, copy (0), 0, 1, High) -- Write 3 to Reg1, out = 8
+  , (High,0, copy (3), 1, 0, Low)  -- No Write       , out = 15
   ]
 
 run func state [] = []
