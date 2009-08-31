@@ -10,7 +10,7 @@
 \column{0.5\textwidth}
 \begin{itemize}
   \item We implemented a reduction circuit in \clash{}\pause
-  \item Simulated first Haskell. VHDL simulation results match\pause
+  \item Simulated in Haskell. VHDL simulation results match\pause
   \item Synthesis completes without errors or warnings\pause
   \item Around half speed of handcoded and optimized VHDL
 \end{itemize}

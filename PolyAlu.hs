@@ -5,27 +5,27 @@ module Main where
 import CLasH.HardwareTypes
 import CLasH.Translator.Annotations
 import qualified Prelude as P
-{-# LINE 51 "PolyAlu.lhs" #-}
+{-# LINE 52 "PolyAlu.lhs" #-}
 type Op a         =   a -> a -> a
-{-# LINE 58 "PolyAlu.lhs" #-}
+type Opcode       =   Bit
+{-# LINE 60 "PolyAlu.lhs" #-}
 type RegBank s a    =   
   Vector (s :+: D1) a
 type RegState s a   =   
   State (RegBank s a)
-{-# LINE 66 "PolyAlu.lhs" #-}
+{-# LINE 68 "PolyAlu.lhs" #-}
 type Word = SizedInt D12
-{-# LINE 85 "PolyAlu.lhs" #-}
-type Opcode         =   Bit
+{-# LINE 88 "PolyAlu.lhs" #-}
 alu :: 
   Op a -> Op a -> 
   Opcode -> a -> a -> a
 alu op1 op2 Low    a b = op1 a b
 alu op1 op2 High   a b = op2 a b
-{-# LINE 108 "PolyAlu.lhs" #-}
+{-# LINE 110 "PolyAlu.lhs" #-}
 registers :: 
   ((NaturalT s ,PositiveT (s :+: D1),((s :+: D1) :>: s) ~ True )) => a -> RangedWord s ->
   RangedWord s -> (RegState s a) -> (RegState s a, a )
-{-# LINE 116 "PolyAlu.lhs" #-}
+{-# LINE 118 "PolyAlu.lhs" #-}
 registers data_in rdaddr wraddr (State mem) = 
   ((State mem'), data_out)
   where
