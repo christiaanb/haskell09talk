@@ -21,6 +21,6 @@
 \include{demo}
 \include{reducer}
 \include{howdoesitwork}
-\include{summery}
+\include{summary}
 
 \end{document}

@@ -10,7 +10,7 @@ LHSRCS = \
 	reducer.lhs \
 	howdoesitwork.lhs \
 	demo.lhs \
-	summery.lhs
+	summary.lhs
 
 LHFORMATS = \
 	talk.fmt
